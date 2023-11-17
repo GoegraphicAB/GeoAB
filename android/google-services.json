@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "796094377986",
+    "project_id": "geoab-779d7",
+    "storage_bucket": "geoab-779d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796094377986:android:43c233e2a38357d615b71b",
+        "android_client_info": {
+          "package_name": "br.edu.ifg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJ-ZgAxZPi77GNP3GhbB5H0_5TFyMBMrw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
