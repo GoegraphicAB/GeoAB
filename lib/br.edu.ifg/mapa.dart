@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:geolocator/geolocator.dart';
@@ -16,7 +18,7 @@ class MyHomePage extends StatefulWidget {
 
 Future<void> _initService() async {
   Map<Permission, PermissionStatus> statuses = await [
-  Permission.location,
+    Permission.location,
     Permission.locationAlways
   ].request();
   if(await Permission.locationAlways.isGranted){
@@ -24,7 +26,25 @@ Future<void> _initService() async {
   }
 }
 
+
 class _MyHomePageState extends State<MyHomePage> {
+  Position? _currentPosition;
+  Timer? _timer;
+  Future<void> _showLoc() async{
+    _timer = Timer.periodic(const Duration(seconds: 20), (timer) async {
+      Position p = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      setState((){
+        _currentPosition = p;
+      });
+    });
+  }
+
+  Future<void> _stopLoc() async{
+    _timer?.cancel();
+    setState((){
+      _currentPosition = null;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,8 +52,15 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: const Center(
-        child: Text("OI"),
+      body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('LAT: ${_currentPosition?.latitude ?? ""}'),
+              Text('LNG: ${_currentPosition?.longitude ?? ""}'),
+              const SizedBox(height: 32),
+            ],
+          )
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -41,19 +68,16 @@ class _MyHomePageState extends State<MyHomePage> {
           var isRunning = await service.isRunning();
           if (isRunning) {
             print("is running");
+            service.invoke("stopService");
+            _stopLoc();
           } else {
             _initService();
-          }
-
-          if (!isRunning) {
-             print('Stop Service');
-          } else {
-            print('Start Service');
+            _showLoc();
           }
           setState(() {});
         },
         tooltip: 'Position',
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add_card),
       ),
     );
   }

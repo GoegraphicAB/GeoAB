@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cron/cron.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -37,7 +38,6 @@ Future<void> initializeService() async {
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
-
   await service.configure(
       androidConfiguration: AndroidConfiguration(
         onStart: onStart,
@@ -54,9 +54,27 @@ Future<void> initializeService() async {
 
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
-  Timer.periodic(const Duration(seconds: 20), (timer) async {
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position p) => {_updateGeoPoint(p)});
+  Cron _cron;
+
+  _cron = Cron();
+    ScheduledTask st = _cron.schedule(Schedule.parse('0 19 * 1-6,8-12 1-5'), () {
+        Timer.periodic(const Duration(seconds: 20), (timer) async {
+          if (!Schedule.parse('0 22 * 1-6,8-12 1-5').shouldRunAt(DateTime.now())) {
+          await Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.high)
+              .then((Position p) => {_updateGeoPoint(p)});
+          }
+        });
+      });
+  Cron _cronta;
+
+  _cronta = Cron()
+    ..schedule(Schedule.parse('0 22 * 1-6,8-12 1-5'), () {
+      _cron.close();
+    });
+
+  service.on('stopService').listen((event) {
+    service.stopSelf();
   });
 }
 
@@ -77,13 +95,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Geographic Analysis Behavior',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Geographic Analysis Behavior'),
     );
   }
 }
