@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:cron/cron.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:geoab/br.edu.ifg/AutGateway.dart';
 import 'package:geoab/firebase_options.dart';
 import 'package:geoab/br.edu.ifg/mapa.dart';
 import 'package:geoab/br.edu.ifg/modells/location.dart';
@@ -79,13 +81,16 @@ void onStart(ServiceInstance service) async {
 }
 
 Future<void> _updateGeoPoint(Position position) async {
+  String? id = FirebaseAuth.instance.currentUser?.uid;
+  String? nome = FirebaseAuth.instance.currentUser?.email?.split('@')[0];
   LocationGEO(
-          id: "",
+          id: id.toString(),
+          nome: nome.toString(),
           longitude: position.longitude.toString(),
           latitude: position.latitude.toString(),
           altitude: position.altitude.toString(),
           timestamp: position.timestamp.toString())
-      .UpdateLocation();
+      .UpdateLocation(id: id);
 }
 
 class MyApp extends StatelessWidget {
@@ -101,7 +106,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Geographic Analysis Behavior'),
+      home: const AutGateway(),
     );
   }
 }
