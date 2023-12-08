@@ -37,46 +37,45 @@ class _LoginPageState extends State<LoginPage> {
         ),
         child: Stack(
           children: [
+
             Positioned(
-              // botologinACC (1:4)
               left: 120,
               top: 468,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(_buildLoginOverlay(context));
                 },
-                style: TextButton.styleFrom(
+                style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.zero,
+                  primary: Color(0xffffffff), // Cor de fundo do botão
+                  onPrimary: Color(0x7f000000), // Cor do texto do botão
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  shadowColor: Color(0x3f000000),
+                  elevation: 2, // Ajuste a elevação conforme necessário
                 ),
                 child: Container(
-                  width: 130,
-                  height: 50,
+                  width: 140,
+                  height: 60,
                   decoration: BoxDecoration(
-                    color: Color(0xffffffff),
                     borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0x3f000000),
-                        offset: Offset(0, 4),
-                        blurRadius: 2,
-                      ),
-                    ],
                   ),
                   child: Center(
                     child: Text(
                       'Login',
                       style: GoogleFonts.roboto(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          height: 1.2125,
-                          color: Color(0x7f000000)),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        height: 1.2125,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
+
             Positioned(
-              // botocadastrartnQ (1:7)
               left: 120,
               top: 559,
               child: ElevatedButton(
@@ -85,31 +84,47 @@ class _LoginPageState extends State<LoginPage> {
                     builder: (context) => CadastroPage(),
                   ));
                 },
-                style: TextButton.styleFrom(
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xffffffff),
+                  onPrimary: Color(0x7f000000),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
                   padding: EdgeInsets.zero,
+                  elevation: 2,
+                  shadowColor: Color(0x3f000000),
                 ),
                 child: Container(
-                  width: 130,
-                  height: 50,
+                  width: 140,
+                  height: 60,
                   decoration: BoxDecoration(
-                    color: Color(0xffffffff),
                     borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0x3f000000),
-                        offset: Offset(0, 4),
-                        blurRadius: 2,
-                      ),
-                    ],
                   ),
                   child: Center(
                     child: Text(
                       'Cadastrar',
                       style: GoogleFonts.roboto(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          height: 1.2125,
-                          color: Color(0x7f000000)),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        height: 1.2125,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            Positioned(
+              // rectangle1Amr (1:12)
+              left: 0,
+              top: 30,
+              child: Align(
+                child: SizedBox(
+                  width: 500,
+                  height: 14,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xffffffff),
                     ),
                   ),
                 ),
@@ -118,14 +133,36 @@ class _LoginPageState extends State<LoginPage> {
             Positioned(
               // rectangle1Amr (1:12)
               left: 0,
-              top: 21,
+              top: 100,
               child: Align(
                 child: SizedBox(
-                  width: 360,
+                  width: 500,
                   height: 14,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xffffffff),
+                  child: Transform.rotate(
+                    angle: -0.2, // Ajuste o ângulo conforme necessário
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xffffffff),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              // rectangle1Amr (1:12)
+              left: 0,
+              top: 100,
+              child: Align(
+                child: SizedBox(
+                  width: 550,
+                  height: 14,
+                  child: Transform.rotate(
+                    angle: 0.4, // Ajuste o ângulo conforme necessário
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xffffffff),
+                      ),
                     ),
                   ),
                 ),
@@ -138,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Align(
                 child: SizedBox(
                   width: 14,
-                  height: 805,
+                  height: 950,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Color(0xffffffff),
